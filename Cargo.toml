@@ -1,0 +1,20 @@
+[package]
+name = "project_cd"
+version = "0.1.0"
+authors = [
+  "Nivaldo Melo <nivaldogmelo@tuta.com>"
+]
+edition = "2024"
+description = "A CLI tool to help you switch between your projects folder"
+readme = "README.md"
+repository = "https://github.com/nivaldogmelo/project_cd"
+license = "MIT"
+keywords = ["projects", "cli-tools", "cli", "cd"]
+categories = ["command-line-utilities", "config"]
+
+[dependencies]
+clap = { version = "4.5.35", features = ["derive"] }
+inquire = "0.7.5"
+serde =  version = "1.0.219", features = ["derive"] }
+thiserror = "2.0.12"
+toml = "0.8.20"
