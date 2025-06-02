@@ -14,7 +14,7 @@ fn main() -> Result<(), std::io::Error> {
 
     match parsed {
 	CliActions::Search => {
-	    let path = search(backend.config.projects.clone());
+	    let path = search(backend.projects.clone());
 	    if let Err(e) = path {
 		println!("Error: {}", e);
 		return Err(std::io::Error::new(
@@ -23,15 +23,15 @@ fn main() -> Result<(), std::io::Error> {
 		));
 	    }
 	    let path = path.unwrap();
-	    print!("{}", path);
+	    print!("{}", path.display());
 	}
 	CliActions::Add(project) => {
-	    if let Some(dir) = project {
-		let project = add(dir.to_string()).expect("Error adding project");
+	    if let Ok(path) = project {
+		let project = add(path.clone()).expect("Error adding project");
 		backend
 		    .add(project.name.clone(), project.path.clone())
 		    .expect("Error adding project");
-		println!("Adding project directory: {:?}", dir);
+		println!("Adding project directory: {:?}", path.display());
 	    } else {
 		println!("No project directory provided");
 	    }
@@ -39,7 +39,7 @@ fn main() -> Result<(), std::io::Error> {
 	CliActions::Remove(project) => {
 	    let name = match project {
 		Some(name) => name,
-		None => remove(backend.config.projects.clone()).expect("Error removing project"),
+		None => remove(backend.projects.clone()).expect("Error removing project"),
 	    };
 
 	    backend
@@ -47,7 +47,7 @@ fn main() -> Result<(), std::io::Error> {
 		.expect("Error removing project");
 	}
 	CliActions::Chdir(project) => {
-	    let path = get_project(project, backend.config.projects.clone());
+	    let path = get_project(project, backend.projects.clone());
 	    if let Err(e) = path {
 		println!("Error: {}", e);
 		return Err(std::io::Error::new(
@@ -56,7 +56,7 @@ fn main() -> Result<(), std::io::Error> {
 		));
 	    }
 	    let path = path.unwrap();
-	    print!("{}", path);
+	    print!("{}", path.display());
 	}
 	_ => {}
     }

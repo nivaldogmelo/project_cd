@@ -1,8 +1,10 @@
+use std::path::PathBuf;
+
 use inquire::Text;
 
 use crate::domain::Project;
 
-pub fn add(path: String) -> Result<Project, String> {
+pub fn add(path: PathBuf) -> Result<Project, String> {
     let name = Text::new("What's gonna be the project name?").prompt();
 
     match name {

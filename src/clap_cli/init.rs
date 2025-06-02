@@ -56,14 +56,14 @@ impl Cli for ClapCli {
 
 		if let Some(project) = &project {
 		    match add(project) {
-			Ok(_) => {}
+			Ok(project_path) => return CliActions::Add(Ok(project_path)),
 			Err(e) => {
 			    clap::Error::raw(clap::error::ErrorKind::InvalidValue, e).exit();
 			}
 		    }
 		}
 
-		CliActions::Add(project)
+		CliActions::Add(Err("No project directory provided".to_string()))
 	    }
 	    Some(("remove", arg_matches)) => {
 		let project = arg_matches.get_one::<String>("project_name").cloned();
